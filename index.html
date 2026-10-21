@@ -9,11 +9,11 @@
     body { background-color: #f1f5f9; color: #0f172a; padding: 30px 15px; }
     .container { max-width: 800px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 25px;
 box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-h1 { color: #1e3a8a; font-size: 24px; margin-bottom: 5px; }
-p.subtitle { color: #64748b; margin-bottom: 20px; font-size: 14px; }
-.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
+    h1 { color: #1e3a8a; font-size: 24px; margin-bottom: 5px; }
+    p.subtitle { color: #64748b; margin-bottom: 20px; font-size: 14px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
 margin-bottom: 25px; }
-    .stat-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; textalign: center; }
+    .stat-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; text-align: center; }
     .stat-card h3 { font-size: 13px; color: #64748b; text-transform: uppercase; margin-bottom: 5px; }
     .stat-card p { font-size: 20px; font-weight: bold; color: #1e3a8a; }
     .filter-group { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
@@ -22,52 +22,104 @@ cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }
     .btn-filter.active, .btn-filter:hover { background: #1e3a8a; color: #ffffff; border-color: #1e3a8a; }
     .project-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 12px;
 display: flex; justify-content: space-between; align-items: center; background: #ffffff; transition: transform
-0.15s ease; }
+0.15s ease; gap: 10px; }
     .project-card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
     .project-info h4 { font-size: 16px; color: #0f172a; margin-bottom: 4px; }
     .project-category { display: inline-block; font-size: 12px; color: #0284c7; background: #e0f2fe; padding:
 2px 8px; border-radius: 4px; margin-bottom: 6px; font-weight: 600; }
     .project-budget { font-size: 14px; color: #334155; font-weight: 600; }
- .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; }
     .badge-success { background: #dcfce7; color: #166534; }
     .badge-pending { background: #fef9c3; color: #854d0e; }
+
+    /* --- PENAMBAHAN CSS UNTUK FITUR BARU --- */
+    .card-form { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px; margin-bottom: 25px; }
+    .card-form h3 { font-size: 16px; color: #1e3a8a; margin-bottom: 12px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 4px; }
+    .form-control { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
+    .form-control:focus { border-color: #1e3a8a; }
+    .form-checkbox { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; font-size: 14px; }
+    .btn-submit { background: #1e3a8a; color: #ffffff; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; width: 100%; }
+    .btn-submit:hover { background: #1d4ed8; }
+
+    .search-input { width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; margin-bottom: 12px; outline: none; }
+    .search-input:focus { border-color: #1e3a8a; }
+
+    .project-actions { display: flex; align-items: center; gap: 8px; }
+    .btn-action { padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: background 0.2s; }
+    .btn-toggle { background: #e2e8f0; color: #334155; }
+    .btn-toggle:hover { background: #cbd5e1; }
+    .btn-delete { background: #fee2e2; color: #991b1b; }
+    .btn-delete:hover { background: #fca5a5; }
     </style>
 </head>
 <body>
-     <div class="container">
+    <div class="container">
         <h1>Portofolio Proyek</h1>
         <p class="subtitle">Modul 4: Pengolahan Logika Data & Interaktivitas DOM</p>
 
+        <!-- Kartu Ringkasan Statistik -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Proyek</h3>
+                <p id="stat-total-projects">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Anggaran</h3>
+                <p id="stat-total-budget">Rp 0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Selesai Dikerjakan</h3>
+                <p id="stat-completed-projects">0</p>
+            </div>
+        </div>
 
- <!-- Kartu Ringkasan Statistik -->
- <div class="stats-grid">
-    <div class="stat-card">
-        <h3>Total Proyek</h3>
-        <p id="stat-total-projects">0</p>
+        <!-- --- FITUR 1: PENAMBAHAN FORMULIR INPUT PROYEK --- -->
+        <div class="card-form">
+            <h3>Tambah Proyek Baru</h3>
+            <form id="project-form">
+                <div class="form-group">
+                    <label for="project-title">Judul Proyek</label>
+                    <input type="text" id="project-title" class="form-control" placeholder="Masukkan judul proyek">
+                </div>
+                <div class="form-group">
+                    <label for="project-category">Kategori</label>
+                    <select id="project-category" class="form-control">
+                        <option value="Web App">Web App</option>
+                        <option value="Mobile App">Mobile App</option>
+                        <option value="Desktop App">Desktop App</option>
+                        <option value="UI/UX Design">UI/UX Design</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="project-budget">Estimasi Anggaran (Rp)</label>
+                    <input type="number" id="project-budget" class="form-control" placeholder="Contoh: 3000000">
+                </div>
+                <div class="form-checkbox">
+                    <input type="checkbox" id="project-completed">
+                    <label for="project-completed">Sudah Selesai</label>
+                </div>
+                <button type="submit" class="btn-submit">Simpan Proyek</button>
+            </form>
+        </div>
+
+        <!-- --- FITUR 2: PENAMBAHAN INPUT PENCARIAN REAL-TIME --- -->
+        <input type="text" id="search-input" class="search-input" placeholder="Cari nama proyek secara real-time...">
+
+        <!-- Tombol Filter Kategori -->
+        <div class="filter-group">
+            <button class="btn-filter active" data-category="Semua">Semua Proyek</button>
+            <button class="btn-filter" data-category="Web App">Web App</button>
+            <button class="btn-filter" data-category="Desktop App">Desktop App</button>
+            <button class="btn-filter" data-category="Mobile App">Mobile App</button>
+            <button class="btn-filter" data-category="UI/UX Design">UI/UX Design</button>
+        </div>
+
+        <!-- Kontainer Daftar Proyek -->
+        <div id="project-list"></div>
     </div>
-    <div class="stat-card">
-        <h3>Total Anggaran</h3>
-        <p id="stat-total-budget">Rp 0</p>
-    </div>
-    <div class="stat-card">
-        <h3>Selesai Dikerjakan</h3>
-        <p id="stat-completed-projects">0</p>
-    </div>
-</div>
-
-
- <!-- Tombol Filter Kategori -->
- <div class="filter-group">
-    <button class="btn-filter active" data-category="Semua">Semua Proyek</button>
-    <button class="btn-filter" data-category="Web App">Web App</button>
-    <button class="btn-filter" data-category="Desktop App">Desktop App</button>
-    <button class="btn-filter" data-category="Mobile App">Mobile App</button>
-</div>
-
-<!-- Kontainer Daftar Proyek -->
-  <div id="project-list"></div>
-</div>
  
-<script src="main.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
